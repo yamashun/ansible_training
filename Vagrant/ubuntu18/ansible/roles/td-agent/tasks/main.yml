@@ -1,0 +1,47 @@
+- name: install dependencies...
+  apt: name={{ item }} state=installed update_cache=yes
+  with_items:
+    - python-pycurl
+
+- name: Add the Treasuredata apt key
+  apt_key: url=http://packages.treasuredata.com/GPG-KEY-td-agent state=present
+
+- name: Add apt repository
+  apt_repository: repo='deb [arch=amd64] http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib' state=present
+
+- name: install td-agent
+  apt:
+    name: td-agent
+    state: latest
+
+# - name: apt-get td-agent
+#   apt: name=td-agent update_cache=yes force=yes
+#   notify:
+#     - restart td-agent
+
+# - name: install plugin
+#   gem:
+#     executable: /usr/sbin/td-agent-gem
+#     name: hoge-gem
+#     state: present
+#     user_install: no
+#     version: 1.0.0
+
+# - hosts: docker
+#   vars:
+#     td_agent_server: 192.168.0.1
+#     td_agent_lognames:
+#       - { log_tag: web.web-1.log, log_path: /var/log/web/web-1.log }
+#       - { log_tag: web.web-2.log, log_path: /var/log/web/web-2.log }
+#       - { log_tag: web.web-3.log, log_path: /var/log/web/web-3.log }
+#       - { log_tag: web.web-4.log, log_path: /var/log/web/web-4.log }
+#       - { log_tag: web.web-5.log, log_path: /var/log/web/web-5.log }
+ 
+#   tasks:
+#     - name: replace td-agent.conf
+#       template: src=template/td-agent.conf.j2 dest=/etc/td-agent/td-agent.conf owner=root group=root mode=0644
+#       notify: restart td-agent service
+ 
+#   handlers:
+#     - name: restart td-agent service
+#       service: name=td-agent state=restarted
