@@ -15,7 +15,19 @@
     state: latest
 
 - name: mkdir direcrory
-  file: path=/var/log/nginx/s3 state=directory owner=root group=root mode=0755
+  file: path={{ item.path }} owner={{ item.owner }} group={{ item.group }} mode=0{{ item.mode }} state=directory
+  with_items:
+    - { "path":"/var/log/td-agent/buffer/", "owner":"td-agent", "group":"td-agent", "mode":"755" }
+    - { "path":"/var/log/td-agent/s3/", "owner":"td-agent", "group":"td-agent", "mode":"755" }
+    - { "path":"/var/log/td-agent/s3/nginx-logs/", "owner":"td-agent", "group":"td-agent", "mode":"755" }
+    - { "path":"/etc/td-agent/conf.d", "owner":"td-agent", "group":"td-agent", "mode":"755" }
+
+- name: put td-agent.conf
+  template: src={{ item.src }} dest={{ item.dest }} owner={{ item.owner }} group={{ item.group }} mode=0{{ item.mode }}
+  with_items:
+    - { "src":"template/td-agent.conf.j2", "dest":"/etc/td-agent/td-agent.conf", "owner":"root", "group":"root", "mode":"644" }
+    - { "src":"template/conf.d/nginx_match.conf.j2", "dest":"/etc/td-agent/conf.d/nginx_match.conf", "owner":"root", "group":"root", "mode":"644" }
+    - { "src":"template/conf.d/nginx_source.conf.j2", "dest":"/etc/td-agent/conf.d/nginx_source.conf", "owner":"root", "group":"root", "mode":"644" }
 
 # - name: apt-get td-agent
 #   apt: name=td-agent update_cache=yes force=yes
@@ -40,13 +52,6 @@
 #       - { log_tag: web.web-4.log, log_path: /var/log/web/web-4.log }
 #       - { log_tag: web.web-5.log, log_path: /var/log/web/web-5.log }
  
-- name: put td-agent.conf
-  template:
-    src: template/td-agent.conf.j2
-    dest: /etc/td-agent/td-agent.conf
-    owner: root
-    group: root
-    mode: 0644
     # notify: restart td-agent
  
 #   handlers:

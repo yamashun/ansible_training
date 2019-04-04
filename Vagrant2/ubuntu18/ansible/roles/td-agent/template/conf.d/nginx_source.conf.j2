@@ -2,6 +2,6 @@
   type tail
   tag nginx
   path /var/log/nginx/access.log
-  pos_file /var/log/td-agent/s3/xxx_service.access.log.pos
+  pos_file /var/log/td-agent/s3/{{ td_agent_log_prefix }}_service.access.log.pos
   format nginx
 </source>
