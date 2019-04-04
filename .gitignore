@@ -1,1 +1,4 @@
 Vagrant/ubuntu18/*.log
+Vagrant/ubuntu18/.vagrant
+Vagrant2/ubuntu18/*.log
+Vagrant2/ubuntu18/.vagrant
