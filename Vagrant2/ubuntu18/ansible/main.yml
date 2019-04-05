@@ -1,5 +1,7 @@
 - hosts: all
   sudo: yes
+  vars_files:
+    - group_vars/web/td-agent-s3.yml
   roles:
-  - nginx
-  - td-agent
+    - nginx
+    - td-agent

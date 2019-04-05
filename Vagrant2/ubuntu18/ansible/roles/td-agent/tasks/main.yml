@@ -28,32 +28,7 @@
     - { "src":"template/td-agent.conf.j2", "dest":"/etc/td-agent/td-agent.conf", "owner":"root", "group":"root", "mode":"644" }
     - { "src":"template/conf.d/nginx_match.conf.j2", "dest":"/etc/td-agent/conf.d/nginx_match.conf", "owner":"root", "group":"root", "mode":"644" }
     - { "src":"template/conf.d/nginx_source.conf.j2", "dest":"/etc/td-agent/conf.d/nginx_source.conf", "owner":"root", "group":"root", "mode":"644" }
+    - { "src":"template/init.d/td-agent.j2", "dest":"/lib/systemd/system/td-agent.service", "owner":"root", "group":"root", "mode":"644" }
+  notify:
+    - reload td-agent
 
-# - name: apt-get td-agent
-#   apt: name=td-agent update_cache=yes force=yes
-#   notify:
-#     - restart td-agent
-
-# - name: install plugin
-#   gem:
-#     executable: /usr/sbin/td-agent-gem
-#     name: hoge-gem
-#     state: present
-#     user_install: no
-#     version: 1.0.0
-
-# - hosts: docker
-#   vars:
-#     td_agent_server: 192.168.0.1
-#     td_agent_lognames:
-#       - { log_tag: web.web-1.log, log_path: /var/log/web/web-1.log }
-#       - { log_tag: web.web-2.log, log_path: /var/log/web/web-2.log }
-#       - { log_tag: web.web-3.log, log_path: /var/log/web/web-3.log }
-#       - { log_tag: web.web-4.log, log_path: /var/log/web/web-4.log }
-#       - { log_tag: web.web-5.log, log_path: /var/log/web/web-5.log }
- 
-    # notify: restart td-agent
- 
-#   handlers:
-#     - name: restart td-agent service
-#       service: name=td-agent state=restarted

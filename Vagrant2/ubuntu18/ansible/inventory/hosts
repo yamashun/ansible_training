@@ -1,2 +1,8 @@
-[default]
+[dev-web]
+web1 ansible_ssh_host=192.168.33.11 ansible_python_interpreter=/usr/bin/python3
+
+[stg-web]
+web1 ansible_ssh_host=192.168.33.11 ansible_python_interpreter=/usr/bin/python3
+
+[prd-web]
 web1 ansible_ssh_host=192.168.33.11 ansible_python_interpreter=/usr/bin/python3
